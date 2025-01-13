@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import DarkModeToggle from '../components/DarkModeToggle.astro';
+import ErrorComponent from '../components/ErrorComponent.astro';
+import { supabase } from '../lib/supabase';
+
+// Get the session from Supabase
+const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+if (!session) {
+  return Astro.redirect('/');
+}
+
+// Get user data including role
+const { data: userData, error: userError } = await supabase
+  .from('users')
+  .select(`
+    *,
+    roles (
+      name,
+      description
+    ),
+    personal_info (*)
+  `)
+  .eq('id', session.user.id)
+  .single();
+
+if (userError) {
+  console.error('Error fetching user data:', userError);
+  return new Response('Error al cargar los datos del usuario. Por favor, inténtalo de nuevo más tarde.', {
+    status: 500,
+  });
+}
+---
+
+<Layout title="Dashboard - Edu Compliance">
+  <div class="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+    <Sidebar role={userData.roles.name} userInfo={userData} />
+    
+    <main class="flex-1 p-8">
+      <DarkModeToggle />
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-primary-600 dark:text-primary-300 mb-6">
+          Bienvenido, {userData.full_name}
+        </h1>
+        
+        <!-- Placeholder for dynamic content -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <p class="text-gray-600 dark:text-gray-300">
+            Selecciona una opción del menú para comenzar.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+</Layout>

@@ -1,0 +1,86 @@
+---
+interface Props {
+  role: string;
+  userInfo: {
+    full_name: string;
+    email: string;
+    department: string;
+    personal_info: {
+      phone: string;
+      address: string;
+      emergency_contact: string;
+    };
+  };
+}
+
+const { role, userInfo } = Astro.props;
+
+const menuItems = {
+  'Responsable de Convivencia': [
+    { name: 'Iniciar Protocolo', icon: '📝' },
+    { name: 'Continuar Protocolo', icon: '▶️' },
+    { name: 'Revisar Dashboard', icon: '📊' }
+  ],
+  'Profesor': [
+    { name: 'Revisar Formatos', icon: '📋' },
+    { name: 'Firmar Formatos', icon: '✍️' },
+    { name: 'Revisar Dashboard', icon: '📊' }
+  ],
+  'Director': [
+    { name: 'Visión 360°', icon: '🔄' },
+    { name: 'Firmar Solicitudes', icon: '✅' },
+    { name: 'Revisar Dashboard', icon: '📊' }
+  ]
+};
+---
+
+<div class="w-1/4 min-h-screen bg-white dark:bg-gray-800 shadow-lg">
+  <!-- Personal Information Section -->
+  <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+    <h2 class="text-xl font-bold text-primary-600 dark:text-primary-300 mb-4">Información Personal</h2>
+    <div class="space-y-3">
+      <div>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Nombre</p>
+        <p class="font-medium text-gray-900 dark:text-white">{userInfo.full_name}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Email</p>
+        <p class="font-medium text-gray-900 dark:text-white">{userInfo.email}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Departamento</p>
+        <p class="font-medium text-gray-900 dark:text-white">{userInfo.department}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Teléfono</p>
+        <p class="font-medium text-gray-900 dark:text-white">{userInfo.personal_info.phone}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Dirección</p>
+        <p class="font-medium text-gray-900 dark:text-white">{userInfo.personal_info.address}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Contacto de Emergencia</p>
+        <p class="font-medium text-gray-900 dark:text-white">{userInfo.personal_info.emergency_contact}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu Section -->
+  <nav class="p-6">
+    <h2 class="text-xl font-bold text-primary-600 dark:text-primary-300 mb-4">Menú</h2>
+    <ul class="space-y-2">
+      {menuItems[role]?.map((item) => (
+        <li>
+          <a
+            href={`#${item.name.toLowerCase().replace(/ /g, '-')}`}
+            class="flex items-center p-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/50 transition-colors"
+          >
+            <span class="mr-3">{item.icon}</span>
+            {item.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</div>
