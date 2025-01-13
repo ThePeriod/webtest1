@@ -1,8 +1,8 @@
 /* empty css                                     */
-import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as addAttribute, b as createAstro, d as renderComponent } from '../chunks/astro/server_B-0O3man.mjs';
+import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as addAttribute, b as createAstro, d as renderComponent } from '../chunks/astro/server_B8E1Tmnt.mjs';
 import 'kleur/colors';
 import 'html-escaper';
-import { s as supabase, $ as $$DarkModeToggle, a as $$Layout } from '../chunks/supabase_Ctjt3vQw.mjs';
+import { s as supabase, $ as $$DarkModeToggle, a as $$Layout } from '../chunks/supabase_BtItDUQw.mjs';
 import 'clsx';
 export { renderers } from '../renderers.mjs';
 

@@ -1,8 +1,8 @@
 /* empty css                                     */
-import { c as createComponent, r as renderTemplate, m as maybeRenderHead, d as renderComponent, a as addAttribute } from '../chunks/astro/server_B-0O3man.mjs';
+import { c as createComponent, r as renderTemplate, m as maybeRenderHead, d as renderComponent, a as addAttribute } from '../chunks/astro/server_B8E1Tmnt.mjs';
 import 'kleur/colors';
 import 'html-escaper';
-import { $ as $$DarkModeToggle, a as $$Layout, i as isSupabaseConfigured } from '../chunks/supabase_Ctjt3vQw.mjs';
+import { i as isSupabaseConfigured, $ as $$DarkModeToggle, a as $$Layout } from '../chunks/supabase_BtItDUQw.mjs';
 import 'clsx';
 /* empty css                                 */
 export { renderers } from '../renderers.mjs';
@@ -13,6 +13,7 @@ const $$LoadingScreen = createComponent(($$result, $$props, $$slots) => {
 
 const $$Index = createComponent(async ($$result, $$props, $$slots) => {
   const isConfigured = isSupabaseConfigured();
+  console.log("Is Supabase configured:", isConfigured);
   return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Login - Edu Compliance", "data-astro-cid-j7pv25f6": true }, { "default": ($$result2) => renderTemplate` ${renderComponent($$result2, "LoadingScreen", $$LoadingScreen, { "data-astro-cid-j7pv25f6": true })} ${renderComponent($$result2, "DarkModeToggle", $$DarkModeToggle, { "data-astro-cid-j7pv25f6": true })} ${maybeRenderHead()}<main class="min-h-screen flex bg-gradient-to-br from-primary-100 to-primary-300 dark:from-primary-800 dark:to-primary-900" data-astro-cid-j7pv25f6> <div class="w-1/4 p-8 bg-white dark:bg-gray-800 flex flex-col justify-center" data-astro-cid-j7pv25f6> <div class="max-w-sm mx-auto w-full" data-astro-cid-j7pv25f6> <h1 class="text-3xl font-bold mb-8 text-primary-600 dark:text-primary-300 font-dm-sans" data-astro-cid-j7pv25f6>Iniciar Sesión</h1> ${!isConfigured && renderTemplate`<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert" data-astro-cid-j7pv25f6> <p class="font-bold" data-astro-cid-j7pv25f6>Error de Configuración</p> <p class="text-sm" data-astro-cid-j7pv25f6>La conexión con Supabase no está configurada. Por favor, configure las variables de entorno.</p> </div>`} <form id="login-form" class="space-y-6" data-astro-cid-j7pv25f6> <div data-astro-cid-j7pv25f6> <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 font-dm-sans" for="email" data-astro-cid-j7pv25f6>
 Correo Electrónico
 </label> <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white" required${addAttribute(!isConfigured, "disabled")} data-astro-cid-j7pv25f6> </div> <div data-astro-cid-j7pv25f6> <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 font-dm-sans" for="password" data-astro-cid-j7pv25f6>

@@ -6,6 +6,7 @@ import { isSupabaseConfigured } from '../lib/supabase';
 import '@fontsource/dm-sans';
 
 const isConfigured = isSupabaseConfigured();
+console.log('Is Supabase configured:', isConfigured);
 ---
 
 <Layout title="Login - Edu Compliance">
@@ -77,20 +78,39 @@ const isConfigured = isSupabaseConfigured();
 <script>
   const form = document.getElementById('login-form');
   const errorMessage = document.getElementById('error-message');
+  const submitButton = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Iniciando sesión...';
+    }
     
     try {
       const email = (document.getElementById('email') as HTMLInputElement).value;
       const password = (document.getElementById('password') as HTMLInputElement).value;
       
+      if (!email || !password) {
+        throw new Error('Por favor, completa todos los campos.');
+      }
+      
       const { createClient } = await import('@supabase/supabase-js');
       const supabase = createClient(
         import.meta.env.PUBLIC_SUPABASE_URL,
-        import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+        import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+        {
+          auth: {
+            autoRefreshToken: true,
+            persistSession: true,
+            detectSessionInUrl: true
+          }
+        }
       );
 
+      console.log('Intentando iniciar sesión con:', { email });
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -99,9 +119,14 @@ const isConfigured = isSupabaseConfigured();
       if (error) throw error;
 
       if (data.session) {
+        console.log('Sesión iniciada correctamente');
         window.location.href = '/dashboard';
+      } else {
+        throw new Error('No se pudo iniciar sesión');
       }
     } catch (error: any) {
+      console.error('Error durante el inicio de sesión:', error);
+      
       if (errorMessage) {
         let message = 'Error al iniciar sesión. ';
         
@@ -112,13 +137,17 @@ const isConfigured = isSupabaseConfigured();
         } else if (error.message.includes('Too many requests')) {
           message += 'Demasiados intentos. Por favor, espera unos minutos.';
         } else {
-          message += 'Por favor, verifica tus credenciales.';
+          message += error.message || 'Por favor, verifica tus credenciales.';
         }
         
         errorMessage.textContent = message;
         errorMessage.classList.remove('hidden');
       }
-      console.error('Error:', error.message);
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Ingresar';
+      }
     }
   });
 </script>
