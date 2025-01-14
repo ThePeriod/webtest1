@@ -24,8 +24,15 @@
     document.documentElement.classList.add('dark');
   }
 
-  themeToggle?.addEventListener('click', () => {
+  themeToggle.addEventListener('click', () => {
     document.documentElement.classList.toggle('dark');
     updateTheme();
   });
+
+  // Check for saved user preference
+  if (localStorage.theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
 </script>
